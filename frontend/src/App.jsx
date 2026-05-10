@@ -27,13 +27,13 @@ function DashboardLayout() {
   return (
     <div className="min-h-screen bg-gray-50">
 
-      // NAVBAR
+      {/* NAVBAR */}
       <nav className="bg-white shadow px-4 py-3 flex justify-between items-center">
         <h1 className="text-base md:text-lg font-bold text-gray-800 truncate max-w-[180px] md:max-w-none">
           Regulatory Penalty Tracker
         </h1>
 
-        // DESKTOP
+        {/* DESKTOP */}
         <div className="hidden md:flex items-center gap-2">
           <span className="text-sm text-gray-500">Hi, {user?.username}</span>
           <button onClick={() => navigate("/dashboard")}
@@ -50,7 +50,7 @@ function DashboardLayout() {
           </button>
         </div>
 
-        // MOBILE HAMBURGER
+        {/* MOBILE HAMBURGER */}
         <button
           className="md:hidden text-gray-700 text-xl p-1"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -59,7 +59,7 @@ function DashboardLayout() {
         </button>
       </nav>
 
-      // MOBILE DROPDOWN
+      {/* MOBILE DROPDOWN */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 shadow px-4 py-3
           flex flex-col gap-2">
@@ -79,10 +79,10 @@ function DashboardLayout() {
         </div>
       )}
 
-      // PAGE CONTENT 
+      {/* PAGE CONTENT */}
       <div className="w-full max-w-screen-xl mx-auto px-3 md:px-6 py-4 space-y-4">
 
-        // DASHBOARD + FORM 
+        {/* DASHBOARD + FORM */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
 
           <div className="lg:col-span-2">

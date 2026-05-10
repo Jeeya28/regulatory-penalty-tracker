@@ -37,11 +37,11 @@ function PenaltyList({ onEdit }) {
       const responseData = res.data?.data || res.data;
 
       if (responseData?.content) {
-        // Paginated response
+        {/* Paginated response */}
         setPenalties(responseData.content.map(normalizePenalty));
         setTotalPages(responseData.totalPages || 1);
       } else if (Array.isArray(responseData)) {
-        // Flat array response
+        {/* Flat array response */}
         setPenalties(responseData.map(normalizePenalty));
         setTotalPages(1);
       } else {
@@ -97,11 +97,11 @@ function PenaltyList({ onEdit }) {
         <p className="bg-red-100 text-red-600 p-2 rounded text-sm mb-3">{error}</p>
       )}
 
-      // FILTERS
+      {/* FILTERS */}
       <div className="w-full bg-white rounded-xl border border-gray-200 p-4 mb-4">
         <div className="flex flex-wrap items-center gap-3">
 
-          // SEARCH
+          {/* SEARCH */}
           <input
             className="flex-1 min-w-[180px] border border-gray-200 rounded-lg
               px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400
@@ -112,7 +112,7 @@ function PenaltyList({ onEdit }) {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          // STATUS
+          {/* STATUS */}
           <select
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm
               focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
@@ -124,7 +124,7 @@ function PenaltyList({ onEdit }) {
             <option value="CLOSED">CLOSED</option>
           </select>
 
-          // DATE RANGE
+          {/* DATE RANGE */}
           <div className="flex items-center gap-2">
             <input
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm
@@ -143,7 +143,7 @@ function PenaltyList({ onEdit }) {
             />
           </div>
 
-          // CLEAR
+          {/* CLEAR */}
           <button
             onClick={() => {
               setSearch(""); setStatusFilter("");
@@ -159,7 +159,7 @@ function PenaltyList({ onEdit }) {
         </div>
       </div>
 
-      // TABLE 
+      {/* TABLE */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border bg-white shadow rounded overflow-hidden">
           <thead className="bg-gray-200">
@@ -208,7 +208,7 @@ function PenaltyList({ onEdit }) {
         </table>
       </div>
 
-      // CARDS 
+      {/* CARDS */}
       <div className="md:hidden flex flex-col gap-3">
         {filteredPenalties.map((p) => (
           <div key={p.id}
@@ -247,7 +247,7 @@ function PenaltyList({ onEdit }) {
         ))}
       </div>
 
-      // PAGINATION
+      {/* PAGINATION */}
       <div className="flex justify-center items-center gap-3 mt-4">
         <button
           disabled={page === 0}

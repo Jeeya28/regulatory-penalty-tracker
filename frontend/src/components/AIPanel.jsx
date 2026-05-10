@@ -36,7 +36,7 @@ function AIPanel() {
   return (
     <div className="flex flex-col h-full w-full">
 
-      // HEADER
+      {/* HEADER */}
       <div className="flex items-center gap-2 mb-3">
         <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center
           justify-center text-white text-xs font-bold flex-shrink-0">
@@ -45,7 +45,7 @@ function AIPanel() {
         <h2 className="text-sm font-semibold text-gray-700">AI Assistant</h2>
       </div>
 
-      // INPUT
+      {/* INPUT */}
       <div className="flex w-full gap-2">
         <input
           className="flex-1 min-w-0 border border-gray-200 rounded-lg px-3 py-2
@@ -77,14 +77,14 @@ function AIPanel() {
         </button>
       </div>
 
-      // ERROR
+      {/* ERROR */}
       {error && (
         <p className="mt-2 text-xs text-red-500 bg-red-50 p-2 rounded border border-red-100">
           {error}
         </p>
       )}
 
-      // RESPONSE
+      {/* RESPONSE */}
       {response && !loading && (
         <div className="mt-3 flex-1 overflow-y-auto border border-blue-100
           bg-blue-50 rounded-lg p-3 space-y-2">
@@ -130,7 +130,7 @@ function AIPanel() {
         </div>
       )}
 
-      // EMPTY STATE
+      {/* EMPTY STATE */}
       {!response && !loading && !error && (
         <div className="flex-1 flex items-center justify-center mt-3">
           <p className="text-xs text-gray-400 text-center px-2">
