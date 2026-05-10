@@ -30,6 +30,9 @@ public class PenaltyController {
         penalty.setDescription(request.getDescription());
         penalty.setAmount(request.getAmount());
         penalty.setStatus(request.getStatus());
+        penalty.setRegulationBody(request.getRegulationBody());
+        penalty.setDueDate(request.getDueDate());
+        penalty.setIsDeleted(false);
 
         Penalty saved = service.createPenalty(penalty);
 
@@ -67,6 +70,8 @@ public class PenaltyController {
         penalty.setDescription(request.getDescription());
         penalty.setAmount(request.getAmount());
         penalty.setStatus(request.getStatus());
+        penalty.setRegulationBody(request.getRegulationBody());
+        penalty.setDueDate(request.getDueDate());
 
         Penalty updated = service.updatePenalty(id, penalty);
 

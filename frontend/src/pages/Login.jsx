@@ -33,9 +33,12 @@ function Login() {
       <form onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow w-full max-w-sm">
 
-        <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
-          Regulatory Penalty Tracker
+        <h2 className="text-xl font-bold mb-1 text-center text-gray-800">
+          Welcome back
         </h2>
+        <p className="text-sm text-gray-400 text-center mb-6">
+          Regulatory Penalty Tracker
+        </p>
 
         {error && (
           <p className="text-red-500 mb-3 text-sm bg-red-50 p-2 rounded">{error}</p>

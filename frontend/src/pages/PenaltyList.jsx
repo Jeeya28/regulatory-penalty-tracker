@@ -20,6 +20,15 @@ function PenaltyList({ onEdit }) {
     fetchPenalties();
   }, [page]);
 
+  const normalizePenalty = (p) => ({
+    ...p,
+    amount: p.amount != null
+      ? p.amount
+      : p.penalty_amount != null
+        ? p.penalty_amount
+        : 0,
+  });
+
   const fetchPenalties = async () => {
     try {
       setLoading(true);
@@ -30,11 +39,11 @@ function PenaltyList({ onEdit }) {
 
       if (responseData?.content) {
         // Paginated response
-        setPenalties(responseData.content);
+        setPenalties(responseData.content.map(normalizePenalty));
         setTotalPages(responseData.totalPages || 1);
       } else if (Array.isArray(responseData)) {
         // Flat array response
-        setPenalties(responseData);
+        setPenalties(responseData.map(normalizePenalty));
         setTotalPages(1);
       } else {
         setPenalties([]);
@@ -47,7 +56,7 @@ function PenaltyList({ onEdit }) {
       setError("Backend not available. Showing sample data.");
       setPenalties([{
         id: 1, title: "Sample Penalty",
-        status: "OPEN", penalty_amount: 5000, due_date: "2026-05-01",
+        status: "OPEN", amount: 5000, dueDate: "2026-05-01",
       }]);
       setTotalPages(1);
     } finally {
@@ -69,12 +78,13 @@ function PenaltyList({ onEdit }) {
   };
 
   const filteredPenalties = penalties.filter((p) => {
-    const due = new Date(p.due_date);
+    const dueRaw = p.dueDate || p.due_date;
+    const due = dueRaw ? new Date(dueRaw) : null;
     return (
       (!search || p.title.toLowerCase().includes(search.toLowerCase())) &&
       (!statusFilter || p.status === statusFilter) &&
-      (!startDate || new Date(startDate) <= due) &&
-      (!endDate || new Date(endDate) >= due)
+      (!startDate || (due && new Date(startDate) <= due)) &&
+      (!endDate || (due && new Date(endDate) >= due))
     );
   });
 
@@ -179,8 +189,8 @@ function PenaltyList({ onEdit }) {
                     {p.status}
                   </span>
                 </td>
-                <td className="p-3 text-sm">₹{(p.penalty_amount || p.amount || 0).toLocaleString()}</td>
-                <td className="p-3 text-sm">{p.due_date || p.dueDate}</td>
+                <td className="p-3 text-sm">₹{(p.amount || p.penalty_amount || 0).toLocaleString()}</td>
+                <td className="p-3 text-sm">{p.dueDate || p.due_date}</td>
                 <td className="p-3 text-sm">
                   <button onClick={() => onEdit(p)}
                     className="bg-yellow-500 text-white px-3 py-1 rounded mr-2
@@ -219,10 +229,10 @@ function PenaltyList({ onEdit }) {
               </span>
             </div>
             <p className="text-sm text-gray-600 mb-1">
-              ₹{(p.penalty_amount || p.amount || 0).toLocaleString()}
+              ₹{(p.amount || p.penalty_amount || 0).toLocaleString()}
             </p>
             <p className="text-xs text-gray-400 mb-3">
-              Due: {p.due_date || p.dueDate}
+              Due: {p.dueDate || p.due_date}
             </p>
             <div className="flex gap-2">
               <button onClick={() => onEdit(p)}

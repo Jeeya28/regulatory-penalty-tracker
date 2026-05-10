@@ -25,8 +25,14 @@ function Analytics() {
       let all = [], page = 0, totalPages = 1;
       while (page < totalPages) {
         const res = await api.get(`/penalties?page=${page}&size=50`);
-        all        = [...all, ...res.data.content];
-        totalPages = res.data.totalPages;
+        const responseData = res.data?.data || res.data;
+        const pageData = Array.isArray(responseData?.content)
+          ? responseData.content
+          : Array.isArray(responseData)
+            ? responseData
+            : [];
+        all        = [...all, ...pageData];
+        totalPages = responseData?.totalPages || 1;
         page++;
       }
       setPenalties(all);
@@ -41,12 +47,13 @@ function Analytics() {
   // ── Filter by period ──
   const filtered = penalties.filter((p) => {
     if (period === "All") return true;
-    const due    = new Date(p.due_date || p.dueDate);
+    const dueRaw = p.dueDate || p.due_date;
+    const due    = new Date(dueRaw);
     const days   = period === "Last 7 Days" ? 7
                  : period === "Last 30 Days" ? 30 : 90;
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - days);
-    return due >= cutoff;
+    return dueRaw ? due >= cutoff : false;
   });
 
   // ── Chart data ──
@@ -67,7 +74,9 @@ function Analytics() {
 
   const monthMap = {};
   filtered.forEach((p) => {
-    const date = new Date(p.due_date || p.dueDate);
+    const dueRaw = p.dueDate || p.due_date;
+    if (!dueRaw) return;
+    const date = new Date(dueRaw);
     const key  = date.toLocaleString("default", { month: "short", year: "2-digit" });
     monthMap[key] = (monthMap[key] || 0) + 1;
   });
@@ -75,7 +84,7 @@ function Analytics() {
     .map(([month, count]) => ({ month, count }));
 
   const topPenalties = [...filtered]
-    .sort((a, b) => (b.amount || 0) - (a.amount || 0))
+    .sort((a, b) => ( (b.amount || b.penalty_amount || 0) - (a.amount || a.penalty_amount || 0) ))
     .slice(0, 5)
     .map(p => ({
       name:   (p.title?.slice(0, 15) || "") + "...",

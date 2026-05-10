@@ -44,6 +44,8 @@ public class PenaltyService {
         existing.setDescription(updatedPenalty.getDescription());
         existing.setAmount(updatedPenalty.getAmount());
         existing.setStatus(updatedPenalty.getStatus());
+        existing.setRegulationBody(updatedPenalty.getRegulationBody());
+        existing.setDueDate(updatedPenalty.getDueDate());
 
         return repository.save(existing);
     }

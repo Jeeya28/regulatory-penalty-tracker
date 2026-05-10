@@ -12,9 +12,20 @@ function AIPanel() {
     try {
       setLoading(true); setError(""); setResponse(null);
       const res = await api.post("/ai/describe", { penalty_text: query });
-      setResponse(res.data);
-    } catch {
-      setError("AI service unavailable. Please try again.");
+      const payload = res.data?.data || res.data;
+      if (!payload) {
+        setError("AI service unavailable. Please try again.");
+        return;
+      }
+      if (typeof payload === "string") {
+        setResponse({ text: payload });
+      } else if (typeof payload === "object") {
+        setResponse(payload);
+      } else {
+        setResponse({ text: String(payload) });
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "AI service unavailable. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -94,6 +105,20 @@ function AIPanel() {
               </p>
               <p className="text-sm text-gray-700 leading-relaxed">
                 {response.impact}
+              </p>
+            </div>
+          )}
+          {response.text && !response.description && !response.impact && (
+            <div>
+              <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                {response.text}
+              </p>
+            </div>
+          )}
+          {!response.description && !response.impact && !response.text && (
+            <div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {JSON.stringify(response, null, 2)}
               </p>
             </div>
           )}

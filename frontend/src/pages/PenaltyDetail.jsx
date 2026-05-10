@@ -12,11 +12,11 @@ function PenaltyDetail() {
   const fetchPenalty = async () => {
     try {
       const res = await api.get(`/penalties/${id}`);
-      setPenalty(res.data);
+      setPenalty(res.data?.data || res.data);
     } catch {
       setPenalty({
         id, title: "Sample Penalty", status: "OPEN",
-        penalty_amount: 5000, due_date: "2026-05-01", score: 75,
+        amount: 5000, dueDate: "2026-05-01", score: 75,
       });
     }
   };
@@ -69,24 +69,26 @@ function PenaltyDetail() {
         {/* DETAILS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           <DetailItem label="Amount"
-            value={`₹${(penalty.penalty_amount || penalty.amount || 0).toLocaleString()}`} />
+            value={`₹${((penalty.amount ?? penalty.penalty_amount) ?? 0).toLocaleString()}`} />
           <DetailItem label="Due Date"
-            value={penalty.due_date || penalty.dueDate || "—"} />
+            value={penalty.dueDate || penalty.due_date || "—"} />
           {penalty.description && (
             <DetailItem label="Description" value={penalty.description} />
           )}
-          {(penalty.regulation_body || penalty.regulationBody) && (
+          {(penalty.regulationBody || penalty.regulation_body) && (
             <DetailItem label="Regulation Body"
-              value={penalty.regulation_body || penalty.regulationBody} />
+              value={penalty.regulationBody || penalty.regulation_body} />
           )}
         </div>
 
         {/* SCORE BADGE */}
         <div className="mb-5">
-          <p className="text-xs text-gray-500 mb-1">Compliance Score</p>
-          <span className="inline-block bg-blue-600 text-white
-            px-3 py-1 rounded-full text-sm font-medium">
-            {penalty.score || 70} / 100
+          <p className="text-xs text-gray-500 mb-1">Compliance Status</p>
+          <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium
+            ${penalty.status === "CLOSED"
+              ? "bg-green-100 text-green-700"
+              : "bg-yellow-100 text-yellow-700"}`}>
+            {penalty.status === "CLOSED" ? "✓ Compliant" : "⚠ Action Required"}
           </span>
         </div>
 
