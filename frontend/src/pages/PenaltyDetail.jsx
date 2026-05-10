@@ -38,7 +38,7 @@ function PenaltyDetail() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
 
-      {/* BACK */}
+      // BACK
       <button
         onClick={() => navigate("/dashboard")}
         className="flex items-center gap-1 text-sm text-gray-500 mb-4
@@ -47,11 +47,11 @@ function PenaltyDetail() {
         ← Back to Dashboard
       </button>
 
-      {/* CARD */}
+      // CARD 
       <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6
         w-full max-w-lg mx-auto">
 
-        {/* TITLE + STATUS */}
+        // TITLE + STATUS 
         <div className="flex flex-col sm:flex-row sm:justify-between
           sm:items-start gap-2 mb-4">
           <h2 className="text-lg md:text-xl font-bold text-gray-800">
@@ -66,7 +66,7 @@ function PenaltyDetail() {
           </span>
         </div>
 
-        {/* DETAILS GRID */}
+        // DETAILS GRID
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           <DetailItem label="Amount"
             value={`₹${((penalty.amount ?? penalty.penalty_amount) ?? 0).toLocaleString()}`} />
@@ -81,7 +81,7 @@ function PenaltyDetail() {
           )}
         </div>
 
-        {/* SCORE BADGE */}
+        // SCORE BADGE
         <div className="mb-5">
           <p className="text-xs text-gray-500 mb-1">Compliance Status</p>
           <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium
@@ -92,7 +92,7 @@ function PenaltyDetail() {
           </span>
         </div>
 
-        {/* ACTIONS */}
+        // ACTIONS
         <div className="flex flex-col sm:flex-row gap-2">
           <button
             onClick={() => navigate("/dashboard")}
